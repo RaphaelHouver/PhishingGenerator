@@ -1,9 +1,25 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import employee
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+def dashboard(request):
+    if request.user.is_authenticated:
+        return render(request, 'dashboard/dashboard.html')
+    else:
+        return redirect('login')
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('dashboard')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
 
 def employee_list(request):
     employees = employee.objects.all()

@@ -1,0 +1,14 @@
+<!-- dashboard/templates/dashboard/dashboard.html -->
+<h2>This is the Main Dashboard page</h2>
+
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h2>Welcome, {{ user.username }}!</h2>
+        <!-- Add authenticated user content here -->
+    {% else %}
+        <h2>Welcome to the Dashboard!</h2>
+        <p>Please <a href="{% url 'login' %}">log in</a> or <a href="{% url 'register' %}">register</a>.</p>
+    {% endif %}
+{% endblock %}
