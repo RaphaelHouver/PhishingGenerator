@@ -8,3 +8,6 @@ def index(request):
 def employee_list(request):
     employees = employee.objects.all()
     return render(request, 'dashboard/employee_list.html', {'employees':employees})
+
+def statistiques(request):
+    return render(request, 'dashboard/statistiques.html')
