@@ -21,6 +21,12 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
+def statistics(request):
+    return render(request, 'dashboard/statistics.html')
+
+def create_campaign(request):
+    return render(request, 'dashboard/create_campaign.html')
+
 def employee_list(request):
     employees = employee.objects.all()
     return render(request, 'dashboard/employee_list.html', {'employees':employees})

@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import dashboard, employee_list, register
+from .views import dashboard, employee_list, register, statistics, create_campaign
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -8,5 +8,7 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path("", dashboard, name="dashboard"),
-    path('employee-list/', employee_list, name="employee_list"),
+    path("statistics", statistics, name="statistics"),
+    path("create-campaign", create_campaign, name="create_campaign"),
+    path('employee-list', employee_list, name="employee_list"),
 ]
