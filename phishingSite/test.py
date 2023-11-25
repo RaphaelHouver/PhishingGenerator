@@ -2,13 +2,18 @@ import smtplib
 import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def sendmails(name, mail):
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
-    sender_email = "epitauto@gmail.com"  # Enter your address
+    sender_email = "noreplymicrosoftalertlogin@gmail.com"  # Enter your address
     receiver_email = mail  # Utiliser le paramètre 'mail' pour l'adresse du destinataire
-    password = "ajip dzed tnyd relc"
+    password = os.getenv('PHISHING_MAIL_PWD')
+    print(password)
 
     message = MIMEMultipart("alternative")
     message["Subject"] = "Alerte Sécurité Microsoft"
