@@ -1,3 +1,6 @@
 .vscode
 phishingSite/phishingSite/__pycache__
 phishingSite/polls/__pycache__
+phishingSite/dashboard/__pycache__
+phishingSite/dashboard/migrations/__pycache__
+phishingSite/microsoft/__pycache__
