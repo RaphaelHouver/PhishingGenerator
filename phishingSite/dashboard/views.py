@@ -8,7 +8,7 @@ def dashboard(request):
     if request.user.is_authenticated:
         return render(request, 'dashboard/dashboard.html')
     else:
-        return redirect('login')
+        return redirect('dashboard_login')
 
 def register(request):
     if request.method == 'POST':

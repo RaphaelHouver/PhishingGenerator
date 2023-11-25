@@ -16,7 +16,7 @@
     <nav>
         <!-- Add navigation menu or links here -->
         <ul>
-            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'dashboard_login' %}">Login</a></li>
             <!-- Add other navigation links as needed -->
         </ul>
     </nav>
@@ -36,7 +36,7 @@
         {% if user.is_authenticated %}
             <li><a href="{% url 'logout' %}">Logout</a></li>
         {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'dashboard_login' %}">Login</a></li>
             <li><a href="{% url 'register' %}">Register</a></li>
         {% endif %}
         <!-- Add other navigation links as needed -->
