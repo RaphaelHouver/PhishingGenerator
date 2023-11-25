@@ -1,0 +1,127 @@
+body {
+	background-color: rgb(198, 225, 255);
+	font: bold 11px/1.5em Verdana;
+	}
+
+h1 {
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:16px;
+	font-weight:bold;
+	margin:0;
+	padding:0;
+	}
+
+h2 {
+	color: #484c50;
+	font-family: "Roboto", Arial, sans-serif;
+	font-weight: 400;
+	margin: 0 0 30px 0;
+	}
+
+hr {
+	border:none;
+	border-top:1px solid #CCCCCC;
+	height:1px;
+	margin-bottom:25px;
+	}
+	
+#tabs {
+	float:left;
+	width:100%;
+	background:#000;
+	font-size:93%;
+	line-height:normal;
+	}
+
+#tabs ul {
+	margin:0;
+	padding:10px 10px 0 50px;
+	list-style:none;
+	}
+
+#tabs li {
+	display:inline;
+	margin:0;
+	padding:0;
+	}
+
+#tabs a {
+	float:left;
+	background:url("tableft.gif") no-repeat left top;
+	margin:0;
+	padding:0 0 0 4px;
+	text-decoration:none;
+	}
+
+#tabs a span {
+	float:left;
+	display:block;
+	background:url("tabright.gif") no-repeat right top;
+	padding:5px 15px 4px 6px;
+	color:#FFF;
+	}
+
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+#tabs a span {float:none;}
+
+/* End IE5-Mac hack */
+#tabs a:hover span {
+	color:#FFF;
+	}
+
+#tabs a:hover {
+	background-position:0% -42px;
+	}
+
+#tabs a:hover span {
+	background-position:100% -42px;
+	}  
+
+/* Styles CSS personnalisés */
+
+#my-section {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.my-lead {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.my-project-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    display: inline-block;
+    margin: 10px;
+    width: 200px; /* Ajuste la largeur des cases */
+}
+
+.my-project-item:hover {
+    transform: scale(1.05);
+}
+
+.my-project-item img {
+    width: 100%;
+    height: auto;
+}
+
+.my-text {
+    padding: 15px;
+}
+
+.my-text h2 {
+    font-size: 18px; /* Ajuste la taille de police des titres */
+    color: #007BFF;
+    margin-bottom: 10px;
+}
+
+.my-text p {
+    font-size: 14px; /* Ajuste la taille de police des descriptions */
+    color: #555;
+    margin: 0;
+}
+
