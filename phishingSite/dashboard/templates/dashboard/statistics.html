@@ -1,7 +1,12 @@
 <!-- dashboard/templates/dashboard/statistics.html -->
+<link rel="shortcut icon" href="#" />
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <h2>Statistics</h2>
-    <!-- Add content specific to the statistics page -->
+</head>
+<body>
+    <img src="{% static 'donnees.png' %}" alt="Graphique des clics">
+</body>
+</html>
 {% endblock %}
