@@ -9,6 +9,10 @@ from django.core.validators import MaxLengthValidator
 class entreprise(models.Model):
     nomEntreprise = models.CharField(max_length=200)
 
+# table contenant les templates des phishing
+class template(models.Model):
+    entreprise = models.CharField(max_length=200)
+
 # Table contenant les employés de chaque entreprise
 class employee(models.Model):
     nom = models.CharField(max_length=200)
@@ -21,6 +25,7 @@ class employee(models.Model):
 # Table contenant les campagnes créées par les utilisateurs
 class campagne(models.Model):
     id_entreprise = models.ForeignKey(entreprise, on_delete=models.CASCADE)
+    #id_template = models.ForeignKey(template, on_delete=models.CASCADE)
     mailEnvoi = models.EmailField()
     password_mailEnvoi = HashField()
 

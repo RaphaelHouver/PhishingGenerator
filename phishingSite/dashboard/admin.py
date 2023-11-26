@@ -3,6 +3,7 @@ from .models import employee
 from .models import campagne
 from .models import entreprise
 from .models import emailCampagne
+from .models import template
 
 # class campagneAdmin(admin.ModelAdmin):
 #     list_display = ('id', 'id_entreprise', 'mailEnvoi', 'password_mailEnvoi', 'custom_edit_link')
@@ -16,4 +17,5 @@ admin.site.register(employee)
 # admin.site.register(campagne, campagneAdmin)
 admin.site.register(campagne)
 admin.site.register(entreprise)
+admin.site.register(template)
 admin.site.register(emailCampagne)

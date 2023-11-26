@@ -3,6 +3,7 @@ from .models import employee
 from .models import entreprise
 from .models import campagne
 from .models import emailCampagne
+from .models import template
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -65,6 +66,10 @@ def create_campaign(request):
 def employee_list(request):
     employees = employee.objects.all()
     return render(request, 'dashboard/employee_list.html', {'employees':employees})
+
+def template_list(request):
+    templates = template.objects.all()
+    return render(request, 'dashboard/template_list.html', {'templates':templates})
 
 def phishing_mail_generator(request):
     return render(request, 'dashboard/phishing_mail_generator.html')

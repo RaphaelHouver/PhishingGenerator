@@ -1,0 +1,7 @@
+<!-- dashboard/templates/dashboard/template_list.html -->
+<h2>Template List</h2>
+<ul>
+    {% for template in templates %}
+        <li>Id: {{ template.id }} - Entreprise template: {{ template.entreprise }}</li>
+    {% endfor %}
+</ul>
