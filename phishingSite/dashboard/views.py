@@ -1,11 +1,12 @@
 import matplotlib
 matplotlib.use('Agg')
 from django.shortcuts import render, redirect
-from .models import employee
-from .models import entreprise
-from .models import campagne
-from .models import emailCampagne
-from .models import template
+from .models import Employee
+from .models import Entreprise
+from .models import Campagne
+from .models import EmailCampagne
+from .models import Template
+from .models import FakeEmail
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -14,6 +15,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from django.template import RequestContext
 from django.template.loader import get_template
+from .forms import CampaignForm
+from .mail import *
+import random
 from io import BytesIO
 import base64
 from django.db.models import Count, Q, F
@@ -65,20 +69,61 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 def statistics(request):
-    return render(request, 'dashboard/statistics.html')
+    return render(request, 'dashboard/statisInfotics.html')
 
 def create_campaign(request):
-    return render(request, 'dashboard/create_campaign.html')
+    if request.method == 'POST':
+        campaign_form = CampaignForm(request.POST)
+        print("POST data:", request.POST)  # Pour voir les données soumises
+        if campaign_form.is_valid():
+            selected_company = campaign_form.cleaned_data['entreprise']
+            selected_template = campaign_form.cleaned_data['template']
+            print(f"Selected company: {selected_company}")  # Pour vérifier la validité des données
+            print(f"Selected template: '{selected_template}'")  # Pour vérifier la validité des données
+            employees = Employee.objects.filter(id_entreprise__nomEntreprise=selected_company)
+            for employee in employees:
+                new_token = random.randint(0,100000)
+                print(employee.nom)
+                print(type(selected_template))
+                if selected_template.entreprise == "Microsoft":
+                    sendmailsMicrosoft(employee.nom, employee.mail_address, new_token)
+                    id_mailEnvoi = FakeEmail.objects.get(id=1) 
+                if selected_template.entreprise == "Digiposte":
+                    sendmailsDigipost(employee.nom, employee.mail_address, new_token)
+                    id_mailEnvoi = FakeEmail.objects.get(id=2) 
+                print(f"Mail {selected_template.entreprise} envoyé à {employee.nom}")
+                nouvelle_campagne = Campagne(
+                    id_entreprise=selected_company,
+                    id_mailEnvoi=id_mailEnvoi,
+                    id_template=selected_template
+                )
+                nouvelle_campagne.save()
+                nouveau_mail = EmailCampagne(
+                    clicked=False,
+                    form_completed=False,
+                    token=new_token,
+                    id_campagne=nouvelle_campagne,
+                    id_employee=employee,
+                )
+                nouveau_mail.save()
+                
+                    
+            
+        else:
+            print("Form errors:", campaign_form.errors)  # Pour voir les erreurs du formulaire
+    else:
+        campaign_form = CampaignForm()
+    return render(request, 'dashboard/create_campaign.html', {'campaign_form': campaign_form})
 
 def employee_list(request):
-    employees = employee.objects.all()
+    employees = Employee.objects.all()
     return render(request, 'dashboard/employee_list.html', {'employees':employees})
 
 def statistiques(request):
     return render(request, 'dashboard/statistiques.html')
 
 def template_list(request):
-    templates = template.objects.all()
+    templates = Template.objects.all()
     return render(request, 'dashboard/template_list.html', {'templates':templates})
 
 def phishing_mail_generator(request):
@@ -94,15 +139,15 @@ def info(request):
     return render(request, 'dashboard/Info.html')
 
 def entreprise_list(request):
-    entreprises = entreprise.objects.all()
+    entreprises = Entreprise.objects.all()
     return render(request, 'dashboard/entreprise_list.html', {'entreprises':entreprises})
 
 def campagne_list(request):
-    campagnes = campagne.objects.all()
+    campagnes = Campagne.objects.all()
     return render(request, 'dashboard/campagne_list.html', {'campagnes':campagnes})
 
 def emailcampagne_list(request):
-    emailscampagne = emailCampagne.objects.all()
+    emailscampagne = EmailCampagne.objects.all()
     return render(request, 'dashboard/emailcampagne-list.html', {'emailscampagne':emailscampagne})
 
 def statistics(request):

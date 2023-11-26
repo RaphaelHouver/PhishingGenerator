@@ -44,7 +44,7 @@
 
     <form action="/info/microsoft/submit" method="post">
         {% csrf_token %}
-        <input type="hidden" name="token" value="{{ token }}">
+        <input type="hidden" name="email_campagne_id" value="{{ email_campagne_id }}">
         <label for="username">Nom d'utilisateur:</label>
         <input type="text" id="username" name="username" required>
     
