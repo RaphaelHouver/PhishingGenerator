@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from django.template import RequestContext
 from django.template.loader import get_template
 from .forms import CampaignForm
+from .mail import *
 
 def render_chart(request):
     # Votre script pour générer le graphique
@@ -70,6 +71,9 @@ def create_campaign(request):
             selected_template = campaign_form.cleaned_data['template']
             print("Selected company:", selected_company)  # Pour vérifier la validité des données
             print("Selected template:", selected_template)  # Pour vérifier la validité des données
+            # match selected_company:
+            #     case ""
+            
         else:
             print("Form errors:", campaign_form.errors)  # Pour voir les erreurs du formulaire
     else:

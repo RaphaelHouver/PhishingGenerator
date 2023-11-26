@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from dashboard.models import EmailCampagne
 
-def login(request):
+def login(request, template):
     email_campagne_id = request.GET.get('email_campagne_id')
     context = {'email_campagne_id': email_campagne_id}
     #entreprise = request.GET.get('nomEntreprise')
@@ -11,9 +11,12 @@ def login(request):
         instance.clicked = True
         instance.save()
         print(f"{email_campagne_id} a cliqué sur le lien comme un gros nul")
-    return render(request, 'info/microsoft/login.html', context)
+    if template == "microsoft":
+        return render(request, 'info/microsoft/login.html', context)
+    elif template == "digiposte":
+        return render(request, 'info/digiposte/login.html', context)
 
-def submit(request):
+def submit(request, template):
     email_campagne_id = request.POST.get('email_campagne_id')
     context = {'email_campagne_id': email_campagne_id}
     if email_campagne_id:
@@ -21,4 +24,7 @@ def submit(request):
         instance.form_completed = True
         instance.save()
         print(f"{email_campagne_id} s'est connecté")
-    return render(request, 'info/microsoft/submit.html', context)
+    if template == "microsoft":
+        return render(request, 'info/microsoft/login.html', context)
+    elif template == "digiposte":
+        return render(request, 'info/digiposte/login.html', context)
