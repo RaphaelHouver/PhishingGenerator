@@ -74,7 +74,7 @@ def create_campaign(request):
     return render(request, 'dashboard/create_campaign.html', {'form': form})
 
 def employee_list(request):
-    employees = employee.objects.all()
+    employees = Employee.objects.all()
     return render(request, 'dashboard/employee_list.html', {'employees':employees})
 
 def phishing_mail_generator(request):
@@ -94,9 +94,9 @@ def entreprise_list(request):
     return render(request, 'dashboard/entreprise_list.html', {'entreprises':entreprises})
 
 def campagne_list(request):
-    campagnes = campagne.objects.all()
+    campagnes = Campagne.objects.all()
     return render(request, 'dashboard/campagne_list.html', {'campagnes':campagnes})
 
 def emailcampagne_list(request):
-    emailscampagne = emailCampagne.objects.all()
+    emailscampagne = EmailCampagne.objects.all()
     return render(request, 'dashboard/emailcampagne-list.html', {'emailscampagne':emailscampagne})
