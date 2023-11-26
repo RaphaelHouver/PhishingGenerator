@@ -16,8 +16,9 @@ from django.template import RequestContext
 from django.template.loader import get_template
 from io import BytesIO
 import base64
-from django.db.models import Count, Q
+from django.db.models import Count, Q, F
 from django.db import models
+import csv
 
 def render_chart(request):
     # Votre script pour générer le graphique
@@ -149,13 +150,31 @@ def statistics(request):
     plt.title('Evolution des formulaires complétés par campagne')
     plt.legend()
 
-    # Save the plot to a BytesIO object
     evolution_image_stream = BytesIO()
     plt.savefig(evolution_image_stream, format='png')
     evolution_image_stream.seek(0)
     plt.close()
 
-    # Encode the BytesIO object as base64 to embed in HTML
     evolutionbar_image = base64.b64encode(evolution_image_stream.read()).decode('utf-8')
 
     return render(request, 'dashboard/statistics.html', {'clusteredbar': clusteredbar_image, 'evolutionbar' : evolutionbar_image})
+
+
+def export_stats(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="statistiques.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Campagne', 'Liens cliques', 'Formulaires remplis', 'Entreprise', 'Total de mails envoyes'])
+
+    data = emailCampagne.objects.values('id_campagne').annotate(
+        clicked_count=Count('id', filter=Q(clicked=True)),
+        form_completed_count=Count('id', filter=Q(form_completed=True)),
+        entreprise_name=F('id_employee__id_entreprise__nomEntreprise'),
+        total_count=Count('id')
+    ).order_by('id_campagne')
+
+    for entry in data:
+        writer.writerow([entry['id_campagne'], entry['clicked_count'], entry['form_completed_count'], entry['entreprise_name'], entry['total_count']])
+
+    return response
