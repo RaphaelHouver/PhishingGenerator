@@ -3,5 +3,10 @@
 
 {% block content %}
     <h2>Create Campaign</h2>
+    <form method="post" action="{% url 'create_campaign' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Campagne</button>
+    </form>
     <!-- Add content specific to the campaign page -->
 {% endblock %}

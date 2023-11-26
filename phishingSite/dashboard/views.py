@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import employee
-from .models import entreprise
-from .models import campagne
-from .models import emailCampagne
-from .models import template
+from .models import Employee
+from .models import Entreprise
+from .models import Campagne
+from .models import EmailCampagne
+from .models import Template
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -12,6 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from django.template import RequestContext
 from django.template.loader import get_template
+from .forms import EntrepriseForm
 
 def render_chart(request):
     # Votre script pour générer le graphique
@@ -58,17 +59,27 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 def statistics(request):
-    return render(request, 'dashboard/statistics.html')
+    return render(request, 'dashboard/statisInfotics.html')
 
 def create_campaign(request):
-    return render(request, 'dashboard/create_campaign.html')
+    if request.method == 'POST':
+        form = EntrepriseForm(request.POST)
+        print("POST data:", request.POST)  # Pour voir les données soumises
+        if form.is_valid():
+            selected_company = form.cleaned_data['entreprise']
+            print("Selected company:", selected_company)  # Pour vérifier la validité des données
+        else:
+            print("Form errors:", form.errors)  # Pour voir les erreurs du formulaire
+    else:
+        form = EntrepriseForm()
+    return render(request, 'dashboard/create_campaign.html', {'form': form})
 
 def employee_list(request):
-    employees = employee.objects.all()
+    employees = Employee.objects.all()
     return render(request, 'dashboard/employee_list.html', {'employees':employees})
 
 def template_list(request):
-    templates = template.objects.all()
+    templates = Template.objects.all()
     return render(request, 'dashboard/template_list.html', {'templates':templates})
 
 def phishing_mail_generator(request):
@@ -84,13 +95,13 @@ def info(request):
     return render(request, 'dashboard/Info.html')
 
 def entreprise_list(request):
-    entreprises = entreprise.objects.all()
+    entreprises = Entreprise.objects.all()
     return render(request, 'dashboard/entreprise_list.html', {'entreprises':entreprises})
 
 def campagne_list(request):
-    campagnes = campagne.objects.all()
+    campagnes = Campagne.objects.all()
     return render(request, 'dashboard/campagne_list.html', {'campagnes':campagnes})
 
 def emailcampagne_list(request):
-    emailscampagne = emailCampagne.objects.all()
+    emailscampagne = EmailCampagne.objects.all()
     return render(request, 'dashboard/emailcampagne-list.html', {'emailscampagne':emailscampagne})
