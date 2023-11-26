@@ -3,28 +3,28 @@ from django.shortcuts import get_object_or_404
 from dashboard.models import EmailCampagne
 
 def login(request, template):
-    email_campagne_id = request.GET.get('email_campagne_id')
-    context = {'email_campagne_id': email_campagne_id}
+    token = request.GET.get('token')
+    context = {'token': token}
     #entreprise = request.GET.get('nomEntreprise')
-    if email_campagne_id:
-        instance = get_object_or_404(EmailCampagne, id=email_campagne_id)
+    if token:
+        instance = get_object_or_404(EmailCampagne, token=token)
         instance.clicked = True
         instance.save()
-        print(f"{email_campagne_id} a cliqué sur le lien comme un gros nul")
+        print(f"{token} a cliqué sur le lien comme un gros nul")
     if template == "microsoft":
         return render(request, 'info/microsoft/login.html', context)
     elif template == "digiposte":
         return render(request, 'info/digiposte/login.html', context)
 
 def submit(request, template):
-    email_campagne_id = request.POST.get('email_campagne_id')
-    context = {'email_campagne_id': email_campagne_id}
-    if email_campagne_id:
-        instance = get_object_or_404(EmailCampagne, id=email_campagne_id)
+    token = request.POST.get('token')
+    context = {'token': token}
+    if token:
+        instance = get_object_or_404(EmailCampagne, token=token)
         instance.form_completed = True
         instance.save()
-        print(f"{email_campagne_id} s'est connecté")
+        print(f"{token} s'est connecté")
     if template == "microsoft":
-        return render(request, 'info/microsoft/login.html', context)
+        return render(request, 'info/microsoft/submit.html', context)
     elif template == "digiposte":
-        return render(request, 'info/digiposte/login.html', context)
+        return render(request, 'info/digiposte/submit.html', context)

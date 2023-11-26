@@ -4,6 +4,7 @@ from .models import Entreprise
 from .models import Campagne
 from .models import EmailCampagne
 from .models import Template
+from .models import FakeEmail
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -14,6 +15,7 @@ from django.template import RequestContext
 from django.template.loader import get_template
 from .forms import CampaignForm
 from .mail import *
+import random
 
 def render_chart(request):
     # Votre script pour générer le graphique
@@ -69,10 +71,36 @@ def create_campaign(request):
         if campaign_form.is_valid():
             selected_company = campaign_form.cleaned_data['entreprise']
             selected_template = campaign_form.cleaned_data['template']
-            print("Selected company:", selected_company)  # Pour vérifier la validité des données
-            print("Selected template:", selected_template)  # Pour vérifier la validité des données
-            # match selected_company:
-            #     case ""
+            print(f"Selected company: {selected_company}")  # Pour vérifier la validité des données
+            print(f"Selected template: '{selected_template}'")  # Pour vérifier la validité des données
+            employees = Employee.objects.filter(id_entreprise__nomEntreprise=selected_company)
+            for employee in employees:
+                new_token = random.randint(0,100000)
+                print(employee.nom)
+                print(type(selected_template))
+                if selected_template.entreprise == "Microsoft":
+                    sendmailsMicrosoft(employee.nom, employee.mail_address, new_token)
+                    id_mailEnvoi = FakeEmail.objects.get(id=1) 
+                if selected_template.entreprise == "Digiposte":
+                    sendmailsDigipost(employee.nom, employee.mail_address, new_token)
+                    id_mailEnvoi = FakeEmail.objects.get(id=2) 
+                print(f"Mail {selected_template.entreprise} envoyé à {employee.nom}")
+                nouvelle_campagne = Campagne(
+                    id_entreprise=selected_company,
+                    id_mailEnvoi=id_mailEnvoi,
+                    id_template=selected_template
+                )
+                nouvelle_campagne.save()
+                nouveau_mail = EmailCampagne(
+                    clicked=False,
+                    form_completed=False,
+                    token=new_token,
+                    id_campagne=nouvelle_campagne,
+                    id_employee=employee,
+                )
+                nouveau_mail.save()
+                
+                    
             
         else:
             print("Form errors:", campaign_form.errors)  # Pour voir les erreurs du formulaire

@@ -26,9 +26,9 @@ class FakeEmail(models.Model):
     mail = models.EmailField()
     password = HashField()
 
-    def save(self, args, **kwargs):
+    def save(self, *args, **kwargs):
         self.password = hashlib.sha256(self.password.encode()).hexdigest()
-        super().save(args, **kwargs)
+        super().save(*args, **kwargs)
 
 #table contenant les templates des phishings        
 class Template(models.Model):
