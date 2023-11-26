@@ -25,7 +25,7 @@ class employee(models.Model):
 # Table contenant les campagnes créées par les utilisateurs
 class campagne(models.Model):
     id_entreprise = models.ForeignKey(entreprise, on_delete=models.CASCADE)
-    #id_template = models.ForeignKey(template, on_delete=models.CASCADE)
+    id_template = models.ForeignKey(template, on_delete=models.CASCADE)
     mailEnvoi = models.EmailField()
     password_mailEnvoi = HashField()
 
@@ -33,10 +33,19 @@ class campagne(models.Model):
         self.password_mailEnvoi = hashlib.sha256(self.password_mailEnvoi.encode()).hexdigest()
         super().save(*args, **kwargs)
 
-# Table contenant la liste des emails envoés lors des campagnes
+# Table contenant la liste des emails envoyés lors des campagnes
 class emailCampagne(models.Model):
     id_campagne = models.ForeignKey(campagne, on_delete=models.CASCADE)
     id_employee = models.ForeignKey(employee, on_delete=models.CASCADE)
     clicked = models.BooleanField(default=False)
     form_completed = models.BooleanField(default=False)
     token = models.CharField(max_length=6, validators=[MaxLengthValidator(limit_value=6)])
+
+#table des mails utilisés pour envoyer les phish
+class fakeEmail(models.Model):
+    mail = models.EmailField()
+    password = HashField()
+
+    def save(self, *args, **kwargs):
+        self.password = hashlib.sha256(self.password.encode()).hexdigest()
+        super().save(*args, **kwargs)
