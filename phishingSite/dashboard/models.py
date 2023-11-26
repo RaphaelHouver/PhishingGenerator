@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from .fields import HashField
 from django.core.validators import MaxLengthValidator
-# Create your models here.
+
 
 # Table contenant les entreprises
 class entreprise(models.Model):

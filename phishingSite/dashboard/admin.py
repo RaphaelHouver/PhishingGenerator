@@ -14,10 +14,19 @@ from .models import fakeEmail
 #     custom_edit_link.allow_tags = True
 #     custom_edit_link.short_description = 'Edit Link'
 
+class emailCampagneAdmin(admin.ModelAdmin):
+    list_display = ('id', 'id_campagne', 'id_employee', 'clicked', 'form_completed', 'token')
+    def custom_edit_link(self, obj):
+        return f'<a href="/admin/dashboard/campagne/{obj.id}/change/">Edit</a>'
+
+    custom_edit_link.allow_tags = True
+    custom_edit_link.short_description = 'Edit Link'
+
 admin.site.register(employee)
 # admin.site.register(campagne, campagneAdmin)
 admin.site.register(campagne)
 admin.site.register(entreprise)
 admin.site.register(template)
-admin.site.register(emailCampagne)
+# admin.site.register(emailCampagne)
+admin.site.register(emailCampagne, emailCampagneAdmin)
 admin.site.register(fakeEmail)
