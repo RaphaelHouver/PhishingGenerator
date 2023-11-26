@@ -11,6 +11,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from django.template import RequestContext
 from django.template.loader import get_template
+from .forms import EntrepriseForm
 
 def render_chart(request):
     # Votre script pour générer le graphique
@@ -57,9 +58,17 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 def statistics(request):
-    return render(request, 'dashboard/statistics.html')
+    return render(request, 'dashboard/statisInfotics.html')
 
 def create_campaign(request):
+    form = EntrepriseForm()
+    
+    if request.method == 'POST':
+        form = EntrepriseForm(request.POST)
+        if form.is_valid():
+            selected_company = form.cleaned_data['entreprise']
+            print(selected_company)
+            
     return render(request, 'dashboard/create_campaign.html')
 
 def employee_list(request):
