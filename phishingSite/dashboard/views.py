@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import employee
 from .models import entreprise
+from .models import campagne
+from .models import emailCampagne
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -73,14 +75,17 @@ def phishing_page_generator(request):
 def param_admin(request):
     return render(request, 'dashboard/param_admin.html')
 
-def Info(request):
+def info(request):
     return render(request, 'dashboard/Info.html')
+
 def entreprise_list(request):
     entreprises = entreprise.objects.all()
     return render(request, 'dashboard/entreprise_list.html', {'entreprises':entreprises})
+
 def campagne_list(request):
     campagnes = campagne.objects.all()
     return render(request, 'dashboard/campagne_list.html', {'campagnes':campagnes})
+
 def emailcampagne_list(request):
     emailscampagne = emailCampagne.objects.all()
     return render(request, 'dashboard/emailcampagne-list.html', {'emailscampagne':emailscampagne})
