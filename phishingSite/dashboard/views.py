@@ -34,3 +34,6 @@ def employee_list(request):
 def entreprise_list(request):
     entreprises = entreprise.objects.all()
     return render(request, 'dashboard/entreprise_list.html', {'entreprises':entreprises})
+def campagne_list(request):
+    campagnes = campagne.objects.all()
+    return render(request, 'dashboard/campagne_list.html', {'campagnes':campagnes})

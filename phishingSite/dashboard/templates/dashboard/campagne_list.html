@@ -1,0 +1,7 @@
+<!-- dashboard/templates/dashboard/entreprise_list.html -->
+<h2>Campagne List</h2>
+<ul>
+    {% for campagne in campagnes %}
+        <li>Id: {{ campagne.id }} - Entreprise: {{ campagne.id_entreprise }} - Mail utilisé: {{ campagne.mailEnvoi }} - Password mail utilisé: {{ campagne.password_mailEnvoi }}</li>
+    {% endfor %}
+</ul>
