@@ -12,7 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from django.template import RequestContext
 from django.template.loader import get_template
-from .forms import EntrepriseForm
+from .forms import CampaignForm
 
 def render_chart(request):
     # Votre script pour générer le graphique
@@ -63,16 +63,18 @@ def statistics(request):
 
 def create_campaign(request):
     if request.method == 'POST':
-        form = EntrepriseForm(request.POST)
+        campaign_form = CampaignForm(request.POST)
         print("POST data:", request.POST)  # Pour voir les données soumises
-        if form.is_valid():
-            selected_company = form.cleaned_data['entreprise']
+        if campaign_form.is_valid():
+            selected_company = campaign_form.cleaned_data['entreprise']
+            selected_template = campaign_form.cleaned_data['template']
             print("Selected company:", selected_company)  # Pour vérifier la validité des données
+            print("Selected template:", selected_template)  # Pour vérifier la validité des données
         else:
-            print("Form errors:", form.errors)  # Pour voir les erreurs du formulaire
+            print("Form errors:", campaign_form.errors)  # Pour voir les erreurs du formulaire
     else:
-        form = EntrepriseForm()
-    return render(request, 'dashboard/create_campaign.html', {'form': form})
+        campaign_form = CampaignForm()
+    return render(request, 'dashboard/create_campaign.html', {'campaign_form': campaign_form})
 
 def employee_list(request):
     employees = Employee.objects.all()

@@ -34,6 +34,9 @@ class FakeEmail(models.Model):
 class Template(models.Model):
     entreprise = models.CharField(max_length=200)
     
+    def __str__(self):
+        return self.entreprise
+    
 # Table contenant les campagnes créées par les utilisateurs
 class Campagne(models.Model):
     id_entreprise = models.ForeignKey(Entreprise, on_delete=models.CASCADE)
