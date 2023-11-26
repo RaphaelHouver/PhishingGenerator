@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from .models import employee
-from .models import entreprise
-from .models import campagne
-from .models import emailCampagne
+from .models import Employee
+from .models import Entreprise
+from .models import Campagne
+from .models import EmailCampagne
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -61,15 +61,17 @@ def statistics(request):
     return render(request, 'dashboard/statisInfotics.html')
 
 def create_campaign(request):
-    form = EntrepriseForm()
-    
     if request.method == 'POST':
         form = EntrepriseForm(request.POST)
+        print("POST data:", request.POST)  # Pour voir les données soumises
         if form.is_valid():
             selected_company = form.cleaned_data['entreprise']
-            print(selected_company)
-            
-    return render(request, 'dashboard/create_campaign.html')
+            print("Selected company:", selected_company)  # Pour vérifier la validité des données
+        else:
+            print("Form errors:", form.errors)  # Pour voir les erreurs du formulaire
+    else:
+        form = EntrepriseForm()
+    return render(request, 'dashboard/create_campaign.html', {'form': form})
 
 def employee_list(request):
     employees = employee.objects.all()
@@ -88,7 +90,7 @@ def info(request):
     return render(request, 'dashboard/Info.html')
 
 def entreprise_list(request):
-    entreprises = entreprise.objects.all()
+    entreprises = Entreprise.objects.all()
     return render(request, 'dashboard/entreprise_list.html', {'entreprises':entreprises})
 
 def campagne_list(request):
