@@ -2,6 +2,7 @@ import hashlib
 from django.db import models
 from django.contrib.auth.models import User
 from .fields import HashField
+from django.core.validators import MaxLengthValidator
 # Create your models here.
 
 # Table contenant les entreprises
@@ -33,3 +34,4 @@ class emailCampagne(models.Model):
     id_employee = models.ForeignKey(employee, on_delete=models.CASCADE)
     clicked = models.BooleanField(default=False)
     form_completed = models.BooleanField(default=False)
+    token = models.CharField(max_length=6, validators=[MaxLengthValidator(limit_value=6)])
