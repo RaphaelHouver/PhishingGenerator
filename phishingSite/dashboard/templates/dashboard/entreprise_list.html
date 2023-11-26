@@ -1,0 +1,7 @@
+<!-- dashboard/templates/dashboard/entreprise_list.html -->
+<h2>Entreprise List</h2>
+<ul>
+    {% for entreprise in entreprises %}
+        <li>Id: {{ entreprise.id }} - Name: {{ entreprise.nomEntreprise }}</li>
+    {% endfor %}
+</ul>

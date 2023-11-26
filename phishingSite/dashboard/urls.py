@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import dashboard, employee_list, register
+from .views import dashboard, employee_list, entreprise_list, register
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path("", dashboard, name="dashboard"),
     path('employee-list/', employee_list, name="employee_list"),
+    path('entreprise-list/', entreprise_list, name="entreprise_list"),
 ]
