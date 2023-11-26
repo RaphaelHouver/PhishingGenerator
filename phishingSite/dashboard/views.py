@@ -105,11 +105,12 @@ def emailcampagne_list(request):
     return render(request, 'dashboard/emailcampagne-list.html', {'emailscampagne':emailscampagne})
 
 def statistics(request):
-    data_clusteredbar = emailCampagne.objects.values('id_employee__id_entreprise').annotate(
+    #Graph clustered bar goupé par entreprise 
+    data_clusteredbar = emailCampagne.objects.values('id_employee__id_entreprise__nomEntreprise').annotate(
         clicked_count=Count('id', filter=models.Q(clicked=True)),
         completed_count=Count('id', filter=models.Q(form_completed=True))
     )
-    entreprise_names = [entry['id_employee__id_entreprise'] for entry in data_clusteredbar]
+    entreprise_names = [entry['id_employee__id_entreprise__nomEntreprise'] for entry in data_clusteredbar]
     clicked_counts = [entry['clicked_count'] for entry in data_clusteredbar]
     completed_counts = [entry['completed_count'] for entry in data_clusteredbar]
 
@@ -124,13 +125,37 @@ def statistics(request):
     plt.xticks([i + bar_width/2 for i in index], entreprise_names)
     plt.legend()
 
+    clustered_image_stream = BytesIO()
+    plt.savefig(clustered_image_stream, format='png')
+    clustered_image_stream.seek(0)
+    plt.close()
+
+    clusteredbar_image = base64.b64encode(clustered_image_stream.read()).decode('utf-8')
+    #Evolution graph par campagne
+    data_evolution = emailCampagne.objects.values('id_employee__id_entreprise__nomEntreprise', 'id_campagne').annotate(
+        form_completed_count=Count('id', filter=models.Q(form_completed=True))
+    )
+    entreprises = set(entry['id_employee__id_entreprise__nomEntreprise'] for entry in data_evolution)
+    plt.figure(figsize=(8, 4.8))
+    
+    for entreprise in entreprises:
+        entreprise_data = [entry for entry in data_evolution if entry['id_employee__id_entreprise__nomEntreprise'] == entreprise]
+        id_campagnes = [entry['id_campagne'] for entry in entreprise_data]
+        form_completed_counts = [entry['form_completed_count'] for entry in entreprise_data]
+        plt.plot(id_campagnes, form_completed_counts, label=entreprise, marker='o', linestyle='-', markersize=8)
+    
+    plt.xlabel('Numéro de campagne')
+    plt.ylabel('Nombre de formulaires complétés')
+    plt.title('Evolution des formulaires complétés par campagne')
+    plt.legend()
+
     # Save the plot to a BytesIO object
-    image_stream = BytesIO()
-    plt.savefig(image_stream, format='png')
-    image_stream.seek(0)
+    evolution_image_stream = BytesIO()
+    plt.savefig(evolution_image_stream, format='png')
+    evolution_image_stream.seek(0)
     plt.close()
 
     # Encode the BytesIO object as base64 to embed in HTML
-    encoded_image = base64.b64encode(image_stream.read()).decode('utf-8')
+    evolutionbar_image = base64.b64encode(evolution_image_stream.read()).decode('utf-8')
 
-    return render(request, 'dashboard/statistics.html', {'image': encoded_image})
+    return render(request, 'dashboard/statistics.html', {'clusteredbar': clusteredbar_image, 'evolutionbar' : evolutionbar_image})

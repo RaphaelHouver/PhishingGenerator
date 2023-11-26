@@ -6,9 +6,19 @@
 {% block content %}
 </head>
 <body>
-    <!-- <img src="{% static 'donnees.png' %}" alt="Graphique des clics"> -->
-    <h2>Graph</h2>
-    <img src="data:image/png;base64,{{ image }}" alt="Graph Image">
+    <h2>Statistiques</h2>
+
+    <div style="display: flex;">
+        <div style="flex: 1; margin-right: 10px;">
+            <img src="data:image/png;base64,{{ clusteredbar }}" alt="Grouped Bar Chart">
+        </div>
+        <div style="flex: 1;">
+            <img src="data:image/png;base64,{{ evolutionbar }}" alt="Line Plot">
+        </div>
+    </div>
+    <br>
+    <br>
 </body>
 </html>
+
 {% endblock %}
