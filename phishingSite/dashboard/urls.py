@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import dashboard, employee_list, entreprise_list, campagne_list, emailcampagne_list register, statistics, create_campaign
+from .views import dashboard, employee_list, entreprise_list, campagne_list, emailcampagne_list, register, statistics, create_campaign
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
