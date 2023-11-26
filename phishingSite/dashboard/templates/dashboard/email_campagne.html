@@ -1,0 +1,7 @@
+<!-- dashboard/templates/dashboard/emailcampagne_list.html -->
+<h2>Email Campagne List</h2>
+<ul>
+    {% for emailcampagne in emailscampagne %}
+        <li>Id Campagne: {{ campagne.id_campagne }} - Id employee: {{ camapgne.id_employee }} - Clicked: {{ campagne.clicked }} - Form completed: {{ campagne.form_completed }} - Token: {{ campagne.token }}</li>
+    {% endfor %}
+</ul>

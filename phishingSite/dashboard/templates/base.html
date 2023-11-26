@@ -1,44 +1,40 @@
 <!-- registration/base.html -->
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Login Page for Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles_base.css' %}">
     <!-- Add your CSS styles or link to external stylesheets here -->
 </head>
 <body>
-    <header>
-        <!-- Add header content here -->
-        <h1>Dashboard</h1>
-    </header>
-
-    <nav>
-        <!-- Add navigation menu or links here -->
-        <ul>
-            <li><a href="{% url 'login' %}">Login</a></li>
-            <!-- Add other navigation links as needed -->
-        </ul>
-    </nav>
-
+    <div class="banner">
+        <header>
+            <!-- Add header content here -->
+            <h1>Dashboard</h1>
+        </header>
+    </div>
     <main>
         {% block content %}{% endblock %}
     </main>
-
-    <footer>
-        <!-- Add footer content here -->
-        <p>&copy; {% now "Y" %} Dashboard</p>
-    </footer>
 </body>
 </html>
 <nav>
-    <ul>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-        {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
-            <li><a href="{% url 'register' %}">Register</a></li>
-        {% endif %}
-        <!-- Add other navigation links as needed -->
-    </ul>
+    <footer>
+        <div class="banner">
+            <ul>
+                {% if user.is_authenticated %}
+                    <button class="bouton_logout"><a href="{% url 'logout' %}">Logout</a></button>
+                {% else %}
+                    <button class="bouton_login"><a href="{% url 'login' %}">Login</a></button>
+                    <button class="bouton_register"><a href="{% url 'register' %}">Register</a></button>
+                {% endif %}
+                <!-- Add other navigation links as needed -->
+            </ul>
+            <p>&copy; {% now "Y" %} Dashboard</p>
+            <p>Copyright © 2023 Your Website. All rights reserved.</p>
+        </div>
+    </footer>
 </nav>

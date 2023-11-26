@@ -1,16 +1,75 @@
 <!-- dashboard/templates/dashboard/dashboard.html -->
-<h2>This is the Main Dashboard page</h2>
+
+<link rel="shortcut icon" href="#" />
 
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <h2>Welcome, {{ user.username }}!</h2>
-        <p><a href="{% url 'statistics' %}">View Statistics</a></p>
-        <p><a href="{% url 'create_campaign' %}">Create a Phishing Campaign</a></p>
-        <!-- Add authenticated user content here -->
-    {% else %}
-        <h2>Welcome to the Dashboard!</h2>
-        <p>Please <a href="{% url 'login' %}">log in</a> or <a href="{% url 'register' %}">register</a>.</p>
-    {% endif %}
+    <div class="container">
+        {% if user.is_authenticated %}
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+            <html xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+            <title>Dashboard</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+            {% load static %}
+            <link rel="stylesheet" href="{% static 'styles.css' %}" type="text/css" />
+            </head>
+            <body>
+                <h1>Welcome, {{ user.username }}!</h1>
+                    <div id="tabs">
+                        <ul>
+                            <li><a href="{% url 'statistics' %}"><span>Statistiques</span></a></li>
+                            <li><a href="{% url 'create_campaign' %}"><span>Campagne de phishing</span></a></li>
+                            <li><a href="{% url 'phishing_mail_generator' %}"><span>Générateur de mail</span></a></li>
+                            <li><a href="{% url 'phishing_page_generator' %}"><span>Générateur de page</span></a></li>
+                            <li><a href="{% url 'employee_list' %}"><span>Employés</span></a></li>
+                            <li><a href="{% url 'param_admin' %}"><span>Paramètres admin</span></a></li>
+                            <li><a href="{% url 'info' %}"><span>Informations</span></a></li>
+                        </ul>
+                    </div>
+                    <section id="my-section">
+                        <div class="container">
+                            <div class="row row-bottom-padded-md">
+                                <div class="col-md-12 text-center">
+                                    <h2>Notre concept</h2>
+                                    <p>Ce site vous permet d'effectuer une campagne de phishing et d'en suivre les résultats dans les moindres détails</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xxs-12 animate-box">
+                                    <div class="my-project-item">
+                                        <img src="{% static 'phishing.jpg' %}" alt="Phishing" class="img-responsive"><a href="{% url 'create_campaign' %}">
+                                        <div class="my-text">
+                                            <h2>Création de la campagne</h2>
+                                            <p>Créez la campagne de phishing qui correspond à vos besoins</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xxs-12 animate-box">
+                                    <div class="my-project-item">
+                                        <img src="{% static 'stat.png' %}" alt="Statistiques" class="img-responsive"><a href="{% url 'statistics' %}">
+                                        <div class="my-text">
+                                            <h2>Statistiques</h2>
+                                            <p>Suivez de près votre campagne avec toutes les statistiques disponibles</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xxs-12 animate-box">
+                                    <div class="my-project-item">
+                                        <img src="{% static 'epita_logo.png' %}" alt="Informations" class="img-responsive"><a href="{% url 'info' %}">
+                                        <div class="my-text">
+                                            <h2>Informations</h2>
+                                            <p>Pour plus d'informations, cliquez ici !</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+            </body>
+            </html>
+        {% endif %}
+    </div> 
 {% endblock %}
+
