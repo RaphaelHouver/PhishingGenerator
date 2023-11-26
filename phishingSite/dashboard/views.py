@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import employee
+from .models import entreprise
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -30,3 +31,6 @@ def create_campaign(request):
 def employee_list(request):
     employees = employee.objects.all()
     return render(request, 'dashboard/employee_list.html', {'employees':employees})
+def entreprise_list(request):
+    entreprises = entreprise.objects.all()
+    return render(request, 'dashboard/entreprise_list.html', {'entreprises':entreprises})
