@@ -81,3 +81,6 @@ def entreprise_list(request):
 def campagne_list(request):
     campagnes = campagne.objects.all()
     return render(request, 'dashboard/campagne_list.html', {'campagnes':campagnes})
+def emailcampagne_list(request):
+    emailscampagne = emailCampagne.objects.all()
+    return render(request, 'dashboard/emailcampagne-list.html', {'emailscampagne':emailscampagne})
