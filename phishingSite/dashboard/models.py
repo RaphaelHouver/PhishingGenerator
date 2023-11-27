@@ -43,6 +43,7 @@ class Campagne(models.Model):
     id_template = models.ForeignKey(Template, on_delete=models.CASCADE)
     id_mailEnvoi = models.ForeignKey(FakeEmail, on_delete=models.CASCADE)
     
+    
 # Table contenant la liste des emails envoés lors des campagnes
 class EmailCampagne(models.Model):
     id_campagne = models.ForeignKey(Campagne, on_delete=models.CASCADE)
@@ -50,4 +51,5 @@ class EmailCampagne(models.Model):
     clicked = models.BooleanField(default=False)
     form_completed = models.BooleanField(default=False)
     token = models.CharField(max_length=6, validators=[MaxLengthValidator(limit_value=6)])
+    
 
