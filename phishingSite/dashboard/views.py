@@ -23,6 +23,7 @@ import base64
 from django.db.models import Count, Q, F
 from django.db import models
 import csv
+import numpy as np
 
 def render_chart(request):
     # Votre script pour générer le graphique
@@ -160,15 +161,18 @@ def statistics(request):
     clicked_counts = [entry['clicked_count'] for entry in data_clusteredbar]
     completed_counts = [entry['completed_count'] for entry in data_clusteredbar]
 
-    bar_width = 0.25
-    index = range(len(entreprise_names))
-    plt.bar(index, clicked_counts, bar_width, label='Clicked')
-    plt.bar([i + bar_width for i in index], completed_counts, bar_width, label='Completed')
+    bar_width = 0.22
+    gap = 0.1
+    index = np.arange(len(entreprise_names))
+    colors = ['lightcoral', 'lightblue']
+
+    plt.bar(index - gap/2, clicked_counts, bar_width, label='Clics', color='lightblue')
+    plt.bar([i + bar_width for i in index], completed_counts, bar_width, label='Complétions', color='lightcoral')
 
     plt.xlabel('Entreprise')
-    plt.ylabel('Count')
-    plt.title('Grouped Bar Chart by Entreprise')
-    plt.xticks([i + bar_width/2 for i in index], entreprise_names)
+    plt.ylabel('Somme')
+    plt.title('Répartition d\'interaction par Entreprise')
+    plt.xticks([(i - gap/2) + bar_width/2 for i in index], entreprise_names)
     plt.legend()
 
     clustered_image_stream = BytesIO()
@@ -221,7 +225,7 @@ def statistics(request):
         plt.figure(figsize=(6, 6))
         labels = ['Cliqués', 'Remplis', 'Non cliqués']
         sizes = [clicked_count, form_completed_count, difference_count]
-        colors = ['lightcoral', 'lightgreen', 'lightblue']
+        colors = ['lightcoral', 'mediumaquamarine', 'lightblue']
 
         plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)
         plt.title(f'Pie Chart for {enterprise_name}')
@@ -232,7 +236,7 @@ def statistics(request):
         plt.close()
         piechart_image = base64.b64encode(pie_chart_image_stream.read()).decode('utf-8')
         piechart_images.append(piechart_image)
-    
+
     return render(request, 'dashboard/statistics.html', {'clusteredbar': clusteredbar_image, 'piecharts' : piechart_images})
 
 
