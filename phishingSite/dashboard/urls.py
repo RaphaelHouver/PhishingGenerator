@@ -1,5 +1,5 @@
 from django.urls import path
-from dashboard.views import dashboard, employee_list, entreprise_list, campagne_list, emailcampagne_list, create_campaign, register, statistics, phishing_mail_generator, phishing_page_generator, param_admin, info, render_chart
+from dashboard.views import dashboard, export_stats, employee_list, entreprise_list, campagne_list, emailcampagne_list, create_campaign, register, statistics, phishing_mail_generator, phishing_page_generator, param_admin, info, render_chart
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -16,6 +16,7 @@ urlpatterns = [
     path('entreprise-list', entreprise_list, name="entreprise_list"),
     path('campagne-list', campagne_list, name="campagne_list"),
     path('emailcampagne-list', emailcampagne_list, name="emailcampagne_list"),
-    path('info', info, name="info")
+    path('info', info, name="info"),
+    path('exportstats/', export_stats, name='export_stats'),
 ]
 

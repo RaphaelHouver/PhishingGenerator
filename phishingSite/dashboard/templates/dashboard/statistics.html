@@ -6,7 +6,24 @@
 {% block content %}
 </head>
 <body>
-    <img src="{% static 'donnees.png' %}" alt="Graphique des clics">
+    <h2>Statistiques</h2>
+
+    <div style="display: flex;">
+        <div style="flex: 1; margin-right: 10px;">
+            <img src="data:image/png;base64,{{ clusteredbar }}" alt="Grouped Bar Chart">
+        </div>
+        <!-- <div style="flex: 1;">
+            <img src="data:image/png;base64,{{ evolutionbar }}" alt="Line Plot">
+        </div> -->
+        {% for piechart_image in piecharts %}
+            <img src="data:image/png;base64,{{ piechart_image }}" alt="Pie Chart">
+            <hr>
+        {% endfor %}
+    </div>
+    <br>
+    <br>
+    <a href="{% url 'export_stats' %}" class="btn btn-primary">Export CSV</a>
 </body>
 </html>
+
 {% endblock %}
